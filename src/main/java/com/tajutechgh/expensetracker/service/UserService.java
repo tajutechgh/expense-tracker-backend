@@ -10,4 +10,6 @@ public interface UserService {
     public UserDto getUserById(int userId);
 
     public UserDto getUserByEmail(String email);
+
+    public UserDto createUser(String name, String username, String password);
 }

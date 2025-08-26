@@ -48,4 +48,13 @@ public class UserController {
 
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
+
+    //TODO: register user
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto){
+
+        UserDto savedUser = userService.createUser(userDto.getName(), userDto.getEmail(), userDto.getPassword());
+
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    }
 }

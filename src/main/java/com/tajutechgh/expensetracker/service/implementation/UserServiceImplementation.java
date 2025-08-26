@@ -9,6 +9,7 @@ import com.tajutechgh.expensetracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 @Service
@@ -45,5 +46,20 @@ public class UserServiceImplementation implements UserService {
         }
 
         return UserMapper.mapToUserDto(user);
+    }
+
+    @Override
+    public UserDto createUser(String name, String username, String password) {
+
+        User user = new User();
+
+        user.setName(name);
+        user.setEmail(username);
+        user.setPassword(password);
+        user.setCreatedAt(LocalDateTime.now());
+
+        User savedUser = userRepository.save(user);
+
+        return UserMapper.mapToUserDto(savedUser);
     }
 }
