@@ -27,7 +27,7 @@ public class UserServiceImplementation implements UserService {
 
         User user = userRepository.findById(userId).orElseThrow(
 
-                () -> new UserNotFoundException("User with id " + userId + " not found")
+                () -> new UserNotFoundException("User with ID" + userId + " not found")
         );
 
         return UserMapper.mapToUserDto(user);
@@ -42,7 +42,7 @@ public class UserServiceImplementation implements UserService {
 
         if (user == null){
 
-            throw new UserNotFoundException("User with email " + email + " not found");
+            throw new UserNotFoundException("User with EMAIL " + email + " not found");
         }
 
         return UserMapper.mapToUserDto(user);
