@@ -12,5 +12,7 @@ public interface TransactionCategoryService {
 
     public TransactionCategoryDto getTransactionCategoryById(int categoryId);
 
-    public TransactionCategoryDto updateTransactionCategoryById(int categoryId, String categoryName, String categoryColor);
+    public TransactionCategoryDto updateTransactionCategory(int categoryId, String categoryName, String categoryColor);
+
+    public void deleteTransactionCategory(int categoryId);
 }

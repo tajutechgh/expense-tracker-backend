@@ -75,7 +75,7 @@ public class TransactionCategoryServiceImplementation implements TransactionCate
     }
 
     @Override
-    public TransactionCategoryDto updateTransactionCategoryById(int categoryId, String categoryName, String categoryColor) {
+    public TransactionCategoryDto updateTransactionCategory(int categoryId, String categoryName, String categoryColor) {
 
         TransactionCategory transactionCategory = transactionCategoryRepository.findById(categoryId).orElseThrow(
 
@@ -88,5 +88,16 @@ public class TransactionCategoryServiceImplementation implements TransactionCate
         TransactionCategory updatedCategory = transactionCategoryRepository.save(transactionCategory);
 
         return TransactionCategoryMapper.mapToTransactionCategoryDto(updatedCategory);
+    }
+
+    @Override
+    public void deleteTransactionCategory(int categoryId) {
+
+        TransactionCategory transactionCategory = transactionCategoryRepository.findById(categoryId).orElseThrow(
+
+                () -> new TransactionCategoryNotFoundException("Transaction category with ID " + categoryId + " not found")
+        );
+
+        transactionCategoryRepository.deleteById(categoryId);
     }
 }

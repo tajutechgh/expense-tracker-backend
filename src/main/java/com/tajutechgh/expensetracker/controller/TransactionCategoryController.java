@@ -1,7 +1,6 @@
 package com.tajutechgh.expensetracker.controller;
 
 import com.tajutechgh.expensetracker.dto.TransactionCategoryDto;
-import com.tajutechgh.expensetracker.entity.TransactionCategory;
 import com.tajutechgh.expensetracker.service.TransactionCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,12 +52,21 @@ public class TransactionCategoryController {
     public ResponseEntity<TransactionCategoryDto> updateTransactionCategory(@PathVariable("categoryId") int categoryId,
                                                                             @RequestParam String categoryName, @RequestParam String categoryColor){
 
-        TransactionCategoryDto updatedTransactionCategory = transactionCategoryService.updateTransactionCategoryById(
+        TransactionCategoryDto updatedTransactionCategory = transactionCategoryService.updateTransactionCategory(
                 categoryId,
                 categoryName,
                 categoryColor
         );
 
         return new ResponseEntity<>(updatedTransactionCategory, HttpStatus.OK);
+    }
+
+    //TODO: delete transaction category
+    @DeleteMapping("/delete/{categoryId}")
+    public ResponseEntity<String> deleteTransactionCategory(@PathVariable("categoryId") int categoryId){
+
+        transactionCategoryService.deleteTransactionCategory(categoryId);
+
+        return ResponseEntity.ok("Transaction category deleted successfully");
     }
 }
