@@ -26,7 +26,7 @@ public class Transaction {
     @Column(name = "transaction_amount", nullable = false)
     private double transactionAmount;
 
-    @Column(name = "transaction_date", nullable = false)
+    @Column(name = "transaction_date")
     private Date transactionDate;
 
     @Column(name = "transaction_type", nullable = false)
