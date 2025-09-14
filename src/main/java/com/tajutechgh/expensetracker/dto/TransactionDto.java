@@ -1,6 +1,6 @@
 package com.tajutechgh.expensetracker.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class TransactionDto {
 
@@ -9,14 +9,14 @@ public class TransactionDto {
     private Integer categoryId;
     private String transactionName;
     private double transactionAmount;
-    private Date transactionDate;
+    private LocalDate transactionDate;
     private String transactionType;
 
     public TransactionDto(){
 
     }
 
-    public TransactionDto(Integer id, Integer userId, Integer categoryId, String transactionName, double transactionAmount, Date transactionDate, String transactionType) {
+    public TransactionDto(Integer id, Integer userId, Integer categoryId, String transactionName, double transactionAmount, LocalDate transactionDate, String transactionType) {
         this.id = id;
         this.userId = userId;
         this.categoryId = categoryId;
@@ -66,11 +66,11 @@ public class TransactionDto {
         this.transactionAmount = transactionAmount;
     }
 
-    public Date getTransactionDate() {
+    public LocalDate getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Date transactionDate) {
+    public void setTransactionDate(LocalDate transactionDate) {
         this.transactionDate = transactionDate;
     }
 

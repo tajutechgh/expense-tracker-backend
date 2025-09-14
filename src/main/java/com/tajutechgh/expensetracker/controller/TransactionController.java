@@ -3,12 +3,12 @@ package com.tajutechgh.expensetracker.controller;
 import com.tajutechgh.expensetracker.dto.TransactionDto;
 import com.tajutechgh.expensetracker.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/transactions")
@@ -24,5 +24,25 @@ public class TransactionController {
         TransactionDto savedTransaction = transactionService.createTransaction(transactionDto);
 
         return new ResponseEntity<>(savedTransaction, HttpStatus.CREATED);
+    }
+
+    // TODO: get recent transactions by user
+    @GetMapping("/recent/user/{userId}")
+    public  ResponseEntity<List<TransactionDto>> getRecentTransactionsByUserId(
+            @PathVariable(name = "userId") Integer userId,
+            @RequestParam(value = "page", required = false, defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "size", required = false, defaultValue = "5") Integer pageSize,
+            @RequestParam(value = "sort", required = false, defaultValue = "transactionDate") String sortOption ){
+
+        Page<TransactionDto> page = transactionService.getRecentTransactionsByUserId(userId, pageNum, pageSize, sortOption);
+
+        List<TransactionDto> transactionDtos = page.getContent();
+
+        if (transactionDtos.isEmpty()){
+
+            return ResponseEntity.noContent().build();
+        }
+
+        return new ResponseEntity<>(transactionDtos, HttpStatus.OK);
     }
 }
