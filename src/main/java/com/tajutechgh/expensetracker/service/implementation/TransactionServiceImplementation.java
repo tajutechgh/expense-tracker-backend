@@ -5,6 +5,7 @@ import com.tajutechgh.expensetracker.entity.Transaction;
 import com.tajutechgh.expensetracker.entity.TransactionCategory;
 import com.tajutechgh.expensetracker.entity.User;
 import com.tajutechgh.expensetracker.exception.TransactionCategoryNotFoundException;
+import com.tajutechgh.expensetracker.exception.TransactionNotFoundException;
 import com.tajutechgh.expensetracker.exception.UserNotFoundException;
 import com.tajutechgh.expensetracker.mapper.TransactionMapper;
 import com.tajutechgh.expensetracker.repository.TransactionCategoryRepository;
@@ -69,5 +70,16 @@ public class TransactionServiceImplementation implements TransactionService {
         Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
 
         return transactionRepository.findAllByUserId(userId, pageable).map(TransactionMapper::mapToTransactionDto);
+    }
+
+    @Override
+    public void deleteTransactionById(int transactionId) {
+
+        Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(
+
+                () -> new TransactionNotFoundException("Transaction with ID: " + transactionId + " not found!")
+        );
+
+        transactionRepository.deleteById(transactionId);
     }
 }

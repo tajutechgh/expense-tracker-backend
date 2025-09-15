@@ -45,4 +45,13 @@ public class TransactionController {
 
         return new ResponseEntity<>(transactionDtos, HttpStatus.OK);
     }
+
+    // TODO: delete transaction by id
+    @DeleteMapping("/delete/{transactionId}")
+    public ResponseEntity<String> deleteTransactionById(@PathVariable(name = "transactionId") int transactionId){
+
+        transactionService.deleteTransactionById(transactionId);
+
+        return ResponseEntity.ok("Transaction deleted successfully!");
+    }
 }

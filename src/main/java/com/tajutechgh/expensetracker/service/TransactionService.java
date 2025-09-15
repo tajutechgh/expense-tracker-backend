@@ -10,4 +10,6 @@ public interface TransactionService {
     public TransactionDto createTransaction(TransactionDto transactionDto);
 
     public Page<TransactionDto> getRecentTransactionsByUserId(int userId, int pageNum, int pageSize, String sortField);
+
+    public void deleteTransactionById(int transactionId);
 }
