@@ -73,6 +73,31 @@ public class TransactionServiceImplementation implements TransactionService {
     }
 
     @Override
+    public TransactionDto updateTransaction(int transactionId, TransactionDto transactionDto) {
+
+        Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(
+
+                () -> new TransactionNotFoundException("Transaction with ID: " + transactionId + " not found!")
+        );
+
+        transaction.setTransactionName(transactionDto.getTransactionName());
+        transaction.setTransactionAmount(transactionDto.getTransactionAmount());
+        transaction.setTransactionDate(transactionDto.getTransactionDate());
+
+        TransactionCategory transactionCategory = transactionCategoryRepository.findById(transactionDto.getCategoryId()).orElseThrow(
+
+                () -> new TransactionCategoryNotFoundException("Transaction category with ID: " + transactionDto.getCategoryId() + " not found!")
+        );
+
+        transaction.setTransactionCategory(transactionCategory);
+        transaction.setTransactionType(transactionDto.getTransactionType());
+
+        Transaction updatedTransaction = transactionRepository.save(transaction);
+
+        return TransactionMapper.mapToTransactionDto(updatedTransaction);
+    }
+
+    @Override
     public void deleteTransactionById(int transactionId) {
 
         Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(

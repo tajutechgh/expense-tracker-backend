@@ -46,6 +46,16 @@ public class TransactionController {
         return new ResponseEntity<>(transactionDtos, HttpStatus.OK);
     }
 
+    // TODO: update transaction
+    @PutMapping("/update/{transactionId}")
+    public ResponseEntity<TransactionDto> updateTransaction(@PathVariable(name = "transactionId") int transactionId,
+                                                            @RequestBody TransactionDto transactionDto){
+
+        TransactionDto updatedTransactionDto = transactionService.updateTransaction(transactionId, transactionDto);
+
+        return new ResponseEntity<>(updatedTransactionDto, HttpStatus.OK);
+    }
+
     // TODO: delete transaction by id
     @DeleteMapping("/delete/{transactionId}")
     public ResponseEntity<String> deleteTransactionById(@PathVariable(name = "transactionId") int transactionId){
