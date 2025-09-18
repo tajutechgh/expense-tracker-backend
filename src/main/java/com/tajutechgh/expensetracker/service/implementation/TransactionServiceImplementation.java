@@ -19,9 +19,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImplementation implements TransactionService {
@@ -106,5 +108,27 @@ public class TransactionServiceImplementation implements TransactionService {
         );
 
         transactionRepository.deleteById(transactionId);
+    }
+
+    @Override
+    public List<TransactionDto> getAllTransactionsByUserIdAndYear(int userId, int year) {
+
+        logger.info("Getting all transactions by user ID: " + userId + " in the year: " + year);
+
+
+        LocalDate startDate = LocalDate.of(year, 1, 1);
+        LocalDate endDate = LocalDate.of(year, 12, 31);
+
+        List<Transaction> transactions = transactionRepository.findAllByUserIdAndTransactionDateBetweenOrderByTransactionDateDesc(userId, startDate, endDate);
+
+        if (transactions.isEmpty()){
+
+            logger.info("Transactions by user ID: " + userId + " in the year: " + year + " not found!");
+        }
+
+        return transactions.stream().map(
+
+                (transaction) -> TransactionMapper.mapToTransactionDto(transaction)).collect(Collectors.toList()
+        );
     }
 }

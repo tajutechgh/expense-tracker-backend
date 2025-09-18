@@ -64,4 +64,14 @@ public class TransactionController {
 
         return ResponseEntity.ok("Transaction deleted successfully!");
     }
+
+    //TODO: get all transactions by user id and year
+    @GetMapping("/user-year/{userId}")
+    public ResponseEntity<List<TransactionDto>> getAllTransactionsByUserIdAndYear(@PathVariable(name = "userId") int userId, @RequestParam int year){
+
+        List<TransactionDto> transactionDtos =  transactionService.getAllTransactionsByUserIdAndYear(userId, year);
+
+        return new ResponseEntity<>(transactionDtos, HttpStatus.OK);
+    }
+
 }

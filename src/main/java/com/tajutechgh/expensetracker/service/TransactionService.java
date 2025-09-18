@@ -14,4 +14,6 @@ public interface TransactionService {
     public TransactionDto updateTransaction(int transactionId, TransactionDto transactionDto);
 
     public void deleteTransactionById(int transactionId);
+
+    public List<TransactionDto> getAllTransactionsByUserIdAndYear(int userId, int year);
 }
