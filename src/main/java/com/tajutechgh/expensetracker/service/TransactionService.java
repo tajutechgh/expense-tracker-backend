@@ -16,4 +16,8 @@ public interface TransactionService {
     public void deleteTransactionById(int transactionId);
 
     public List<TransactionDto> getAllTransactionsByUserIdAndYear(int userId, int year);
+
+    public List<TransactionDto> getAllTransactionsByUserIdAndYearAndMonth(int userId, int year, int month);
+
+    public List<Integer> getDistinctTransactionYears(int userId);
 }

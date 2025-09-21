@@ -67,11 +67,29 @@ public class TransactionController {
 
     //TODO: get all transactions by user id and year
     @GetMapping("/user-year/{userId}")
-    public ResponseEntity<List<TransactionDto>> getAllTransactionsByUserIdAndYear(@PathVariable(name = "userId") int userId, @RequestParam int year){
+    public ResponseEntity<List<TransactionDto>> getAllTransactionsByUserIdAndYearOrMonth(@PathVariable(name = "userId") int userId, @RequestParam int year,
+                                                                                  @RequestParam(required = false) Integer month){
 
-        List<TransactionDto> transactionDtos =  transactionService.getAllTransactionsByUserIdAndYear(userId, year);
+        List<TransactionDto> transactionDtoList =  null;
 
-        return new ResponseEntity<>(transactionDtos, HttpStatus.OK);
+        if (month == null){
+
+            transactionDtoList = transactionService.getAllTransactionsByUserIdAndYear(userId, year);
+
+        }else {
+
+            transactionDtoList = transactionService.getAllTransactionsByUserIdAndYearAndMonth(userId, year, month);
+        }
+
+        return new ResponseEntity<>(transactionDtoList, HttpStatus.OK);
     }
 
+    //TODO: get distinct transaction years
+    @GetMapping("/distinct/years/{userId}")
+    public ResponseEntity<List<Integer>> getDistinctTransactionYears(@PathVariable(name = "userId") int userId){
+
+        List<Integer> distinctTransactionYears = transactionService.getDistinctTransactionYears(userId);
+
+        return new ResponseEntity<>(distinctTransactionYears, HttpStatus.OK);
+    }
 }

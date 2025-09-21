@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -115,7 +116,6 @@ public class TransactionServiceImplementation implements TransactionService {
 
         logger.info("Getting all transactions by user ID: " + userId + " in the year: " + year);
 
-
         LocalDate startDate = LocalDate.of(year, 1, 1);
         LocalDate endDate = LocalDate.of(year, 12, 31);
 
@@ -130,5 +130,32 @@ public class TransactionServiceImplementation implements TransactionService {
 
                 (transaction) -> TransactionMapper.mapToTransactionDto(transaction)).collect(Collectors.toList()
         );
+    }
+
+    @Override
+    public List<TransactionDto> getAllTransactionsByUserIdAndYearAndMonth(int userId, int year, int month) {
+
+        logger.info("Getting all transactions by user ID: " + userId + " in a month: " + month +  "  and in the year: " + year);
+
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = LocalDate.of(year, month, YearMonth.of(year, month).lengthOfMonth());
+
+        List<Transaction> transactions = transactionRepository.findAllByUserIdAndTransactionDateBetweenOrderByTransactionDateDesc(userId, startDate, endDate);
+
+        if (transactions.isEmpty()){
+
+            logger.info("Transactions by user ID: " + userId + " in a month: " + month + " and  in the year: " + year + " not found!");
+        }
+
+        return transactions.stream().map(
+
+                (transaction) -> TransactionMapper.mapToTransactionDto(transaction)).collect(Collectors.toList()
+        );
+    }
+
+    @Override
+    public List<Integer> getDistinctTransactionYears(int userId) {
+
+        return transactionRepository.findDistinctYears(userId);
     }
 }
